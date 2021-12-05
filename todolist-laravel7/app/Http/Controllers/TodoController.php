@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Todo;
+use Brian2694\Toastr\Facades\Toastr;
 
+use Illuminate\Http\Request;
+
+use App\Todo;
 class TodoController extends Controller
 {
     /**
@@ -47,6 +49,7 @@ class TodoController extends Controller
             'todo'     => $request->newTodo,
             'deadline' => $request->newDeadline,
         ]);
+        Toastr::success('新しいタスクが追加されました！');
 
         return redirect()->route('todos.index');
     }
@@ -97,6 +100,7 @@ class TodoController extends Controller
         $todo->deadline = $request->updateDeadline;
 
         $todo->save();
+        Toastr::success('タスクが変更されました！');
 
         return redirect()->route('todos.index');
     }
@@ -109,6 +113,11 @@ class TodoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $todo = Todo::find($id);
+        $todo->delete();
+
+        Toastr::success('タスクが変更されました！');
+
+        return redirect()->route('todos.index');
     }
 }
