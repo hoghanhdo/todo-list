@@ -12,11 +12,27 @@
 import AddItemForm from "./AddItemForm.vue"
 import ListView from "./ListView.vue"
 export default {
+  name: "App",
   components: {
       AddItemForm,
       ListView,
     },
-    name: "App"
+    data: function() {
+        return {
+            items: []
+        }
+    },
+    methods: {
+        getList() {
+            axios.get('api/items')
+            .then( response => {
+                this.items = response.data
+            }).catch((err) => {
+                console.log(err)
+            });
+        }
+    },
+    created
 }
 </script>
 
